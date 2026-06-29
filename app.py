@@ -1,30 +1,17 @@
-from flask import Flask, jsonify, request
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# Home route
 @app.route('/')
 def home():
-    return "Welcome to Flask App!"
+    return render_template('index.html')
 
-# Example API route
-@app.route('/api/data', methods=['GET'])
-def get_data():
-    data = {
-        "name": "Flask App",
-        "status": "running"
-    }
-    return jsonify(data)
-
-# POST route example
-@app.route('/api/add', methods=['POST'])
-def add_numbers():
-    data = request.json
-    num1 = data.get('num1', 0)
-    num2 = data.get('num2', 0)
-
+@app.route('/add', methods=['POST'])
+def add():
+    num1 = int(request.form['num1'])
+    num2 = int(request.form['num2'])
     result = num1 + num2
-    return jsonify({"result": result})
+    return jsonify({'result': result})
 
 if __name__ == '__main__':
     app.run(debug=True)
