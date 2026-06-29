@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Beautiful App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>✨ Flask Calculator</h1>
+    <p>Simple, clean and beautiful interface</p>
+
+    <div class="card">
+        <form id="calcForm">
+            <input type="number" name="num1" placeholder="Enter first number" required>
+            <input type="number" name="num2" placeholder="Enter second number" required>
+
+            <button type="submit">Calculate</button>
+        </form>
+
+        <h2 id="result">Result: --</h2>
+    </div>
+</div>
+
+<script>
+document.getElementById('calcForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    fetch('/add', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('result').innerText = "Result: " + data.result;
+    });
+});
+</script>
+
+</body>
+</html>
